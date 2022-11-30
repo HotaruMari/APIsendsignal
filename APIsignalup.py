@@ -26,7 +26,7 @@ execute("USE bmnjrjw8fttrvk80m4cp;")
 app = FastAPI()
 
 def converttosql(info):
-    return 'INSERT INTO signalmari(CH1,CH2,CH3) VALUES (5.5,5.4,5.3),(45.0,41.2,46.3);'
+    return 'SELECT * FROM signalmari ;'
 
 #API Routes
 @app.post('/sendMuestra')
@@ -35,13 +35,12 @@ async def sendMuestra(infodelsensor):
     execute(data)
     respuesta = dict()
     res = cursor.fetchall()
-    if res!=None:
-        for x in range(len(res)):
-            respuesta[f'{x}']=res[x]
+  
+    for x in range(len(res)):
+        respuesta[f'{x}']=res[x]
     conn.commit( )
     respuesta['data']=infodelsensor
     return respuesta
-
 
 #api.com/sendMuestra, [
 #   {'ch1':1.2,'ch2':},
