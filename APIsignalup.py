@@ -31,7 +31,9 @@ def converttosql(info):
 @app.post('/sendMuestra')
 async def sendMuestra(infodelsensor):
     data = converttosql(infodelsensor)
-    respuesta = execute(data)
+    execute(data)
+    row = cursor.fetchall()
+    respuesta = dict(row)
     conn.commit( )
     respuesta['data']=infodelsensor
     return respuesta
