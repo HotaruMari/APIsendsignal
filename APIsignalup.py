@@ -22,7 +22,7 @@ cursor = conn.cursor()
 execute = cursor.execute
 
 #Setup
-API = FastAPI()
+app = FastAPI()
 
 def converttosql(info):
     return 'SELECT * FROM signalmari ;'
