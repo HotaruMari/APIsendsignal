@@ -42,6 +42,7 @@ async def sendMuestra(infodelsensor):
     respuesta['data']=infodelsensor
     return respuesta
 
+
 #api.com/sendMuestra, [
 #   {'ch1':1.2,'ch2':},
 #   {'ch1':1.2,'ch2':},
