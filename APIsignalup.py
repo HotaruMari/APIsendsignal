@@ -20,7 +20,7 @@ conn = mysql.connector.connect(
   
 cursor = conn.cursor()
 execute = cursor.execute
-
+execute("USE bmnjrjw8fttrvk80m4cp;")
 #Setup
 app = FastAPI()
 
