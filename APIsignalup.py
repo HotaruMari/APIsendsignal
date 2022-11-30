@@ -18,7 +18,7 @@ conn = mysql.connector.connect(
     password=cred['PASSWORD'],
     port=cred['PORT'])
   
-cursor = conn.cursor()
+cursor = conn.cursor(buffered=True)
 execute = cursor.execute
 execute("USE bmnjrjw8fttrvk80m4cp;")
 #Setup
