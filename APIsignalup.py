@@ -35,7 +35,7 @@ async def sendMuestra(infodelsensor):
     execute(data)
     respuesta = dict()
     res = cursor.fetchall()
-    if(res!=None):
+    if res!=None:
         for x in range(len(res)):
             respuesta[f'{x}']=res[x]
     conn.commit( )
