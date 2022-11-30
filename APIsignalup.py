@@ -28,7 +28,7 @@ def converttosql(info):
     return 'SELECT * FROM signalmari ;'
 
 #API Routes
-@API.post('/sendMuestra')
+@app.post('/sendMuestra')
 async def sendMuestra(infodelsensor):
     data = converttosql(infodelsensor)
     respuesta = execute(data)
