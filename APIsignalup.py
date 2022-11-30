@@ -33,8 +33,9 @@ async def sendMuestra(infodelsensor):
     data = converttosql(infodelsensor)
     execute(data)
     respuesta = dict()
-    for x in range(len(cursor.fetchall())):
-        respuesta[f'{x}']=cursor[x]
+    res = cursor.fetchall()
+    for x in range(len(res)):
+        respuesta[f'{x}']=res[x]
     conn.commit( )
     respuesta['data']=infodelsensor
     return respuesta
