@@ -25,7 +25,7 @@ execute("USE bmnjrjw8fttrvk80m4cp;")
 app = FastAPI()
 
 def converttosql(info):
-    return 'SELECT * FROM signalmari ;'
+    return 'INSERT INTO signalmari(CH1,CH2,CH3) VALUES (5.5,5.4,5.3),(45.0,41.2,46.3);'
 
 #API Routes
 @app.post('/sendMuestra')
