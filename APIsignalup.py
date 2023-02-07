@@ -46,7 +46,10 @@ async def sendMuestra(infodelsensor):
     respuesta['data']=infodelsensor
     return respuesta
 
-#api.com/sendMuestra, [
+@app.get("/")
+async def home():
+    return {"respuesta":"Hola mundo OwO"}
+#apisendsignal.:up.railway.app/sendMuestra, [
 #   {'ch1':1.2,'ch2':},zh
 #   {'ch1':1.2,'ch2':},
 #   {'ch1':1.2,'ch2':},]
