@@ -1,6 +1,6 @@
-# fly.toml file generated for apisendsignal on 2023-02-06T21:46:13-06:00
+# fly.toml file generated for apisignal on 2023-02-06T22:49:10-06:00
 
-app = "apisendsignal"
+app = "apisignal"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []

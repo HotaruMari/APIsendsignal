@@ -46,9 +46,16 @@ async def sendMuestra(infodelsensor):
     respuesta['data']=infodelsensor
     return respuesta
 
+@app.get('/getMuestra')
+async def getMuestra():
+    execute ("SELECT * FROM signalmari;")
+    response = [x for x in cursor]
+    return {"respuesta":response} #*llora en no programador*
 @app.get("/")
 async def home():
     return {"respuesta":"Hola mundo OwO"}
+
+
 #apisendsignal.:up.railway.app/sendMuestra, [
 #   {'ch1':1.2,'ch2':},zh
 #   {'ch1':1.2,'ch2':},
