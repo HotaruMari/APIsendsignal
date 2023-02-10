@@ -26,6 +26,7 @@ execute("USE bmnjrjw8fttrvk80m4cp;")
 app = FastAPI()
 
 def converttosql(info):
+    #Mandar un jason de 8 keys 
     return 'INSERT INTO signalmari(CH1,CH2,CH3) VALUES (5.5,5.4,5.3),(45.0,41.2,46.3);'
 
 #API Routes
@@ -50,7 +51,7 @@ async def sendMuestra(infodelsensor):
 async def getMuestra():
     execute ("SELECT * FROM signalmari;")
     response = [x for x in cursor]
-    return {"respuesta":response} #*llora en no programador*
+    return {"respuesta":response} 
 @app.get("/")
 async def home():
     return {"respuesta":"Hola mundo OwO"}
