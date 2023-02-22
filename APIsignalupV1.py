@@ -6,12 +6,11 @@ from fastapi import FastAPI
 import mysql.connector
 # Guardar las credenciales de la base de datos a usar
 cred = {
-   'HOST': 'bcvgbge8uxdbbzavvzc7-mysql.services.clever-cloud.com',
-  'DB':'bcvgbge8uxdbbzavvzc7',
-  'USER':'un8f9kjlapfjjrlx',
+   'HOST': 'bmnjrjw8fttrvk80m4cp-mysql.services.clever-cloud.com',
+  'DB':'bmnjrjw8fttrvk80m4cp',
+  'USER':'ux5kkgzfupavbhwi',
   'PORT':'3306',
-
-  'PASSWORD':'GImp876ix8ru2YzkCtFg'
+  'PASSWORD':'esjMYCcpSdyg0qPvMYtj'
 }
 
 conn = mysql.connector.connect(
@@ -22,13 +21,13 @@ conn = mysql.connector.connect(
   
 cursor = conn.cursor(buffered=True)
 execute = cursor.execute
-execute("USE bcvgbge8uxdbbzavvzc7;")
+execute("USE bmnjrjw8fttrvk80m4cp;")
 #Setup
 app = FastAPI()
 
 def converttosql(info):
     #Mandar un jason de 8 keys 
-    return 'INSERT INTO libreria_signal (ch1,ch2,ch3,ch4,ch5,ch6,ch7,ch8) VALUES (5.5,5.4,5.3,45.0,41.2,46.3,1,2);'
+    return 'INSERT INTO signalmari(CH1,CH2,CH3) VALUES (5.5,5.4,5.3),(45.0,41.2,46.3);'
 
 #API Routes
 @app.post('/sendMuestra')
