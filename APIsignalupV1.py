@@ -1,5 +1,5 @@
 #Library import
-
+#La verdad no idea de cual base de datos es pero fue la primera con la que se realizaron pruebas :D
 from fastapi import FastAPI
 
 #Config import
