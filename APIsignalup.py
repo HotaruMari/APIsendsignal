@@ -1,16 +1,18 @@
 #Library import
-
 from fastapi import FastAPI
-
 #Config import
 import mysql.connector
+from pydantic import BaseModel
+import json
+
+class infosensor(BaseModel):
+    infosensor: dict
 # Guardar las credenciales de la base de datos a usar
 cred = {
    'HOST': 'bcvgbge8uxdbbzavvzc7-mysql.services.clever-cloud.com',
   'DB':'bcvgbge8uxdbbzavvzc7',
   'USER':'un8f9kjlapfjjrlx',
   'PORT':'3306',
-
   'PASSWORD':'GImp876ix8ru2YzkCtFg'
 }
 
@@ -26,14 +28,27 @@ execute("USE bcvgbge8uxdbbzavvzc7;")
 #Setup
 app = FastAPI()
 
-def converttosql(info):
-    #Mandar un jason de 8 keys 
-    return 'INSERT INTO libreria_signal (ch1,ch2,ch3,ch4,ch5,ch6,ch7,ch8) VALUES (5.5,5.4,5.3,45.0,41.2,46.3,1,2);'
+def converttosql(infor):
+    print(type(infor.infosensor))
+    infor=infor.infosensor
+    #infor = json.loads(infor.infosensor)
+    i = 0
+    sentenciainicial = 'INSERT INTO libreria_signal (ch1,ch2,ch3,ch4,ch5,ch6,ch7,ch8) VALUES ('
+    for v,k in infor.items():
+        i = i+1   
+        if i<8: 
+            sentenciainicial = sentenciainicial + k +','
+        elif i == 8:
+            sentenciainicial = sentenciainicial + k +'),('
+            i=0
+    sentenciainicial = sentenciainicial[:-2] +';'
+    return sentenciainicial
 
 #API Routes
 @app.post('/sendMuestra')
-async def sendMuestra(infodelsensor):
-    data = converttosql(infodelsensor)
+async def sendMuestra(informacion:infosensor):
+    print(informacion)
+    data = converttosql(informacion)
     execute(data)
     respuesta = dict()
     try:
@@ -45,7 +60,7 @@ async def sendMuestra(infodelsensor):
     except:
         pass
     conn.commit( )
-    respuesta['data']=infodelsensor
+    respuesta['data']=informacion
     return respuesta
 
 @app.get('/getMuestra')
@@ -55,10 +70,4 @@ async def getMuestra():
     return {"respuesta":response} 
 @app.get("/")
 async def home():
-    return {"respuesta":"Hola mundo OwO"}
-
-
-#apisendsignal.:up.railway.app/sendMuestra, [
-#   {'ch1':1.2,'ch2':},zh
-#   {'ch1':1.2,'ch2':},
-#   {'ch1':1.2,'ch2':},]
+    return {"respuesta":"Hola mundo"}

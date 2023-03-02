@@ -1,6 +1,6 @@
-# fly.toml file generated for sendsignalo on 2023-02-21T13:31:07-06:00
+# fly.toml file generated for apiomarsignal on 2023-02-28T22:46:14-06:00
 
-app = "sendsignalo"
+app = "apiomarsignal"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
