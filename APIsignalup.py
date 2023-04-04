@@ -1,19 +1,16 @@
 #Library import
+#La verdad no idea de cual base de datos es pero fue la primera con la que se realizaron pruebas :D
 from fastapi import FastAPI
+import numpy as np
 #Config import
 import mysql.connector
-from pydantic import BaseModel
-import json
-
-class infosensor(BaseModel):
-    infosensor: dict
 # Guardar las credenciales de la base de datos a usar
 cred = {
-   'HOST': 'bcvgbge8uxdbbzavvzc7-mysql.services.clever-cloud.com',
-  'DB':'bcvgbge8uxdbbzavvzc7',
-  'USER':'un8f9kjlapfjjrlx',
+   'HOST': 'bmnjrjw8fttrvk80m4cp-mysql.services.clever-cloud.com',
+  'DB':'bmnjrjw8fttrvk80m4cp',
+  'USER':'ux5kkgzfupavbhwi',
   'PORT':'3306',
-  'PASSWORD':'GImp876ix8ru2YzkCtFg'
+  'PASSWORD':'esjMYCcpSdyg0qPvMYtj'
 }
 
 conn = mysql.connector.connect(
@@ -24,31 +21,43 @@ conn = mysql.connector.connect(
   
 cursor = conn.cursor(buffered=True)
 execute = cursor.execute
-execute("USE bcvgbge8uxdbbzavvzc7;")
+execute("USE bmnjrjw8fttrvk80m4cp;")
 #Setup
 app = FastAPI()
 
-def converttosql(infor):
-    print(type(infor.infosensor))
-    infor=infor.infosensor
-    #infor = json.loads(infor.infosensor)
-    i = 0
-    sentenciainicial = 'INSERT INTO libreria_signal (ch1,ch2,ch3,ch4,ch5,ch6,ch7,ch8) VALUES ('
-    for v,k in infor.items():
-        i = i+1   
-        if i<8: 
-            sentenciainicial = sentenciainicial + k +','
-        elif i == 8:
-            sentenciainicial = sentenciainicial + k +'),('
-            i=0
-    sentenciainicial = sentenciainicial[:-2] +';'
+def converttosql(info):
+    datos=infor.infosensor
+        #Iniciación de sentencia SQL
+    sentenciainicial = 'INSERT INTO libreria_signal (ch1,ch2,ch3,ch4,ch5,ch6,ch7,ch8,ch9,ch10,ch11,ch12,ch13,ch14,ch15,ch16) VALUES '
+    senal=[]
+    keys=[]
+    #Extracción de valores y llaves
+    for key,value in datos.items():
+        senal.append(value)
+        keys.append(key)
+    #Conversión a tipo array para mejor manejo
+    senal = np.array(senal)
+    keys = np.array(keys)
+    #Arreglo para obtener la sentencia SQL
+    orden = np.zeros(senal.shape)
+    for i in range(len(keys)):
+        lugarenlatabla=int(keys[i][2:])     #Lugar el arreglo para la sentencia SQL
+        orden[lugarenlatabla]=senal[np.where(keys=="Ch"+str(lugarenlatabla))[0]]  #Lugar de los datos según el Json enviado
+    # Arreglo de sentencia SQL
+    for j in range(np.shape(orden)[1]):
+        valores= "("
+        for item in range(16):
+            valores=valores+str(orden[item,j])+","
+        valores=valores[:-1]+"),"
+        sentenciainicial=sentenciainicial+valores
+
+    sentenciainicial = sentenciainicial[:-1] +';'  #Sentencia SQL final'
     return sentenciainicial
 
 #API Routes
 @app.post('/sendMuestra')
-async def sendMuestra(informacion:infosensor):
-    print(informacion)
-    data = converttosql(informacion)
+async def sendMuestra(infodelsensor):
+    data = converttosql(infodelsensor)
     execute(data)
     respuesta = dict()
     try:
@@ -60,14 +69,11 @@ async def sendMuestra(informacion:infosensor):
     except:
         pass
     conn.commit( )
-    respuesta['data']=informacion
+    respuesta['data']=infodelsensor
     return respuesta
 
-@app.get('/getMuestra')
-async def getMuestra():
-    execute ("SELECT * FROM signalmari;")
-    response = [x for x in cursor]
-    return {"respuesta":response} 
+
 @app.get("/")
 async def home():
-    return {"respuesta":"Hola mundo"}
+    return {"respuesta":"Hola mundo OwO"}
+
